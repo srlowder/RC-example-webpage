@@ -392,6 +392,9 @@ $(document).ready(function () {
 </ul></li>
 <li><a href="#packages">Packages</a></li>
 <li><a href="#data-wrangling">Data Wrangling</a><ul>
+<li><a href="#import-from-csv">Import from csv</a></li>
+<li><a href="#import-from-xlxs">Import from xlxs</a></li>
+<li><a href="#import-from-gsheet">Import from gsheet</a></li>
 <li><a href="#description-of-fields-in-the-data">Description of Fields in the Data</a></li>
 <li><a href="#wide-to-long-data">Wide to Long Data</a></li>
 </ul></li>
@@ -459,9 +462,10 @@ ggplot2::theme_set(hrbrthemes::theme_ipsum_rc())</code></pre>
 </div>
 <div id="data-wrangling" class="section level1">
 <h1>Data Wrangling</h1>
+<div id="import-from-csv" class="section level2">
+<h2>Import from csv</h2>
 <p>The data are located in the <code>data</code> sub-folder. Import the data using <code>read_csv()</code> function from <strong><code>readr</code></strong> and view them.</p>
 <pre class="r"><code>nema &lt;- read_csv(&quot;data/Nematode_Data.csv&quot;)
-
 nema</code></pre>
 <pre><code>## # A tibble: 24 x 9
 ##    Weeks  Days Temperature Degree_days Unplanted Gatcher GS50a Potam Suneca
@@ -479,8 +483,29 @@ nema</code></pre>
 ## # … with 14 more rows</code></pre>
 <pre class="r"><code>nrow(nema)</code></pre>
 <pre><code>## [1] 24</code></pre>
-<div id="description-of-fields-in-the-data" class="section level3">
-<h3>Description of Fields in the Data</h3>
+</div>
+<div id="import-from-xlxs" class="section level2">
+<h2>Import from xlxs</h2>
+<pre class="r"><code>library(readxl)
+nema2 &lt;- read_excel(&quot;data/Nematode_Data.xlsx&quot;)
+head(nema2)</code></pre>
+<pre><code>## # A tibble: 6 x 9
+##   Weeks  Days Temperature Degree_days Unplanted Gatcher GS50a Potam Suneca
+##   &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+## 1     8    56        15           280      5.75    6.77  6.69  7.61   6.70
+## 2     8    56        20           560      5.92    9.51  7.42  9.28   9.12
+## 3     8    56        22.5         700      6.38    9.96  8.21  9.02  10.0 
+## 4     8    56        25           840      6.51    9.35  8.25  9.73   9.20
+## 5    10    70        15           350      5.85    7.44  6.04  5.97   6.85
+## 6    10    70        20           700      6.16   10.3   8.91 10.3   10.2</code></pre>
+</div>
+<div id="import-from-gsheet" class="section level2">
+<h2>Import from gsheet</h2>
+<pre class="r"><code>library(gsheet)
+nema3 &lt;- gsheet2tbl('https://docs.google.com/spreadsheets/d/1ElWVdgeAQb-uLDQUna3IBVWbnhWkgfL26J7-I8oh9oQ/edit?usp=sharing')</code></pre>
+</div>
+<div id="description-of-fields-in-the-data" class="section level2">
+<h2>Description of Fields in the Data</h2>
 <p>There are nine columns in the <code>nema</code> data described here in the following table.</p>
 <table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
 <thead>
@@ -576,8 +601,8 @@ Log<sup>*</sup>, <code>log()</code>, nematode population in a susceptible wheat 
 </tfoot>
 </table>
 </div>
-<div id="wide-to-long-data" class="section level3">
-<h3>Wide to Long Data</h3>
+<div id="wide-to-long-data" class="section level2">
+<h2>Wide to Long Data</h2>
 <p>You can see that each of the varieties have their own column in the original data format, this is commonly called wide data. Wide data are commonly found in spreadsheets but do not lend themselves easily to data analysis, modelling and visualisation. To make it easier to do these things it is common to convert the data from wide to long format, commonly referred to as tidying, when using R. The advantage of a tidy dataset is that it is easy to manipulate, model and visualize, and always has a specific structure where each variable is a column, each observation is a row, and each type of observational unit is a table <span class="citation">(Wickham 2014)</span>.</p>
 <p>In order to use <strong><code>ggplot2</code></strong> for visualising the data, they need to be converted from wide to long. Using <code>gather()</code> from the <strong><code>tidyr</code></strong> package to convert from wide to long format where the varieties are all listed in a single column, <code>Variety</code>.</p>
 <pre class="r"><code>nema_long &lt;- nema %&gt;% gather(Variety, Log_pop, Unplanted:Suneca)
@@ -878,8 +903,8 @@ plot(mr_model)</code></pre>
 ##  language (EN)                        
 ##  collate  en_US.UTF-8                 
 ##  ctype    en_US.UTF-8                 
-##  tz       America/Sao_Paulo           
-##  date     2019-08-02                  
+##  tz       America/Toronto             
+##  date     2019-08-03                  
 ## 
 ## ─ Packages ──────────────────────────────────────────────────────────────
 ##  package     * version date       lib source                          
@@ -891,6 +916,7 @@ plot(mr_model)</code></pre>
 ##  cli           1.1.0   2019-03-19 [1] CRAN (R 3.5.2)                  
 ##  colorspace    1.4-1   2019-03-18 [1] CRAN (R 3.5.2)                  
 ##  crayon        1.3.4   2017-09-16 [1] CRAN (R 3.5.0)                  
+##  curl          3.3     2019-01-10 [1] CRAN (R 3.5.2)                  
 ##  desc          1.2.0   2018-05-01 [1] CRAN (R 3.5.0)                  
 ##  devtools      2.0.1   2018-10-26 [1] CRAN (R 3.5.1)                  
 ##  digest        0.6.18  2018-10-10 [1] CRAN (R 3.5.0)                  
@@ -905,6 +931,7 @@ plot(mr_model)</code></pre>
 ##  ggplot2     * 3.1.1   2019-04-07 [1] CRAN (R 3.5.2)                  
 ##  glue          1.3.1   2019-03-12 [1] CRAN (R 3.5.2)                  
 ##  gridExtra     2.3     2017-09-09 [1] CRAN (R 3.5.0)                  
+##  gsheet      * 0.4.2   2016-12-30 [1] CRAN (R 3.5.0)                  
 ##  gtable        0.3.0   2019-03-25 [1] CRAN (R 3.5.2)                  
 ##  haven         2.0.0   2018-11-22 [1] CRAN (R 3.5.0)                  
 ##  hms           0.4.2   2018-03-10 [1] CRAN (R 3.5.0)                  
@@ -935,7 +962,7 @@ plot(mr_model)</code></pre>
 ##  R6            2.4.0   2019-02-14 [1] CRAN (R 3.5.2)                  
 ##  Rcpp          1.0.1   2019-03-17 [1] CRAN (R 3.5.2)                  
 ##  readr       * 1.3.1   2018-12-21 [1] CRAN (R 3.5.0)                  
-##  readxl        1.1.0   2018-04-20 [1] CRAN (R 3.5.0)                  
+##  readxl      * 1.1.0   2018-04-20 [1] CRAN (R 3.5.0)                  
 ##  remotes       2.0.2   2018-10-30 [1] CRAN (R 3.5.0)                  
 ##  rlang         0.3.4   2019-04-07 [1] CRAN (R 3.5.2)                  
 ##  rmarkdown     1.12    2019-03-14 [1] CRAN (R 3.5.2)                  

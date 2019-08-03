@@ -75,7 +75,7 @@ nema
 nrow(nema)
 ```
 
-### Import from xlxs
+## Import from xlxs
 
 ```{r}
 library(readxl)
@@ -84,7 +84,7 @@ head(nema2)
 ```
 
 
-### Import from gsheet
+## Import from gsheet
 
 ```{r}
 library(gsheet)
