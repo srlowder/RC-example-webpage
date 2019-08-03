@@ -64,18 +64,36 @@ ggplot2::theme_set(hrbrthemes::theme_ipsum_rc())
 
 # Data Wrangling
 
+## Import from csv
+
 The data are located in the `data` sub-folder. Import the data using
 `read_csv()` function from **`readr`**  and view them.
 
 ```{r data_import, echo=TRUE, message=FALSE}
 nema <- read_csv("data/Nematode_Data.csv")
-
 nema
-
 nrow(nema)
 ```
 
-### Description of Fields in the Data
+### Import from xlxs
+
+```{r}
+library(readxl)
+nema2 <- read_excel("data/Nematode_Data.xlsx")
+head(nema2)
+```
+
+
+### Import from gsheet
+
+```{r}
+library(gsheet)
+nema3 <- gsheet2tbl('https://docs.google.com/spreadsheets/d/1ElWVdgeAQb-uLDQUna3IBVWbnhWkgfL26J7-I8oh9oQ/edit?usp=sharing')
+```
+
+
+
+## Description of Fields in the Data
 
 There are nine columns in the `nema` data described here in the following table.
 
@@ -129,7 +147,7 @@ fields %>%
   )
 ```
 
-### Wide to Long Data
+## Wide to Long Data
 
 You can see that each of the varieties have their own column in the original data format, this is commonly called wide data. Wide data are commonly found in spreadsheets but do not lend themselves easily to data analysis, modelling and visualisation. To make it easier to do these things it is common to convert the data from wide to long format, commonly referred to as tidying, when using R. The advantage of a tidy dataset is that it is easy to manipulate, model and visualize, and always has a specific structure where each variable is a column, each observation is a row, and each type of observational unit is a table
 [@TIDY-DATA2014].
