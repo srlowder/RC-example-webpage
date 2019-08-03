@@ -73,6 +73,7 @@ The data are located in the `data` sub-folder. Import the data using
 nema <- read_csv("data/Nematode_Data.csv")
 nema
 nrow(nema)
+summary(nema)
 ```
 
 ## Import from xlxs
